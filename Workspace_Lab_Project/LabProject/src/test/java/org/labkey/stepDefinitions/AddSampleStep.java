@@ -4,21 +4,28 @@ import com.sun.source.tree.AssertTree;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.labkey.pages.HomePage;
 import org.labkey.utility.TestContextSetup;
 import org.testng.Assert;
 
 public class AddSampleStep {
 
     private TestContextSetup testContextSetup;
-
+    private HomePage homePage;
     public AddSampleStep(TestContextSetup testContextSetup){
         this.testContextSetup=testContextSetup;
+        this.homePage=testContextSetup.getPageObjectManager().homePage();
     }
 
 @Given("the user is logged into the LabKey application")
 public void the_user_is_logged_into_the_lab_key_application() {
     // Write code here that turns the phrase above into concrete actions
   //  throw new io.cucumber.java.PendingException();
+    testContextSetup.getDriver().get("https://samplemanager-test-65575.lkpoc.labkey.com/home/login-login.view?returnUrl=%2Fhome%2Fproject-start.view");
+    homePage.enterEmail("user");
+    homePage.enterPassword("pass");
+    homePage.clickTermsCheckbox();
+    homePage.sign();
     System.out.println("Lab key logged in successfully");
     testContextSetup.getReportUtil().logInfo("Lab key logged in successfully");
 
@@ -30,7 +37,7 @@ public void the_user_navigates_to_the_editable_grid_page() {
 
     System.out.println("User navigates to editable grid page");
     testContextSetup.getReportUtil().logInfo("User navigates to editable grid page");
-    Assert.assertTrue(false, "String message");
+  //  Assert.assertTrue(false, "String message");
 }
 @When("the user clicks on {string} in the editable grid")
 public void the_user_clicks_on_in_the_editable_grid(String string) {
